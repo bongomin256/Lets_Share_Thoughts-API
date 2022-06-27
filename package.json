@@ -1,0 +1,29 @@
+{
+  "name": "lets_share_thoughts-api",
+  "version": "1.0.0",
+  "description": "Social Network backend API ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index",
+    "seed": "node utils/seed"
+  },
+   "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.13"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bongomin256/Lets_Share_Thoughts-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bongomin256/Lets_Share_Thoughts-API/issues"
+  },
+  "homepage": "https://github.com/bongomin256/Lets_Share_Thoughts-API#readme"
+}
