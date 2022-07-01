@@ -4,15 +4,15 @@ module.exports = {
   // Getting all the users
   getUsers(req, res) {
     User.find()
-      .populate("thoughts")
+      // .populate("thoughts")
       .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
   //Getting a single user
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
-      .populate("thought")
-      .populate("friends")
+      // .populate("thought")
+      // .populate("friends")
       .then((user) =>
         !user
           ? res.status(404).json({ message: "No user with this ID" })
@@ -23,7 +23,10 @@ module.exports = {
   createUser(req, res) {
     User.create(req.body)
       .then((dbUserData) => res.json(dbUserData))
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
   //Putting/Updating
   updateUser(req, res) {
@@ -57,6 +60,39 @@ module.exports = {
               message: "User created no thought with this id!",
             })
           : res.json({ message: "User successfully deleted!" })
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+
+  // Adding friend to a user
+  addFriend(req, res) {
+    console.log("You are adding a friend");
+    console.log(req.body);
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friend: req.params.friendId } },
+      { runValidators: true, new: true }
+    )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: "No friend found with that ID :(" })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+  // Remove friend from a user
+  removeFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friend: { frienId: req.params.friendId } } },
+      { runValidators: true, new: true }
+    )
+      .then((user) =>
+        !user
+          ? res
+              .status(404)
+              .json({ message: "No student found with that ID :(" })
+          : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
   },
