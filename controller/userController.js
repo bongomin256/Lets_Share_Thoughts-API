@@ -22,7 +22,7 @@ module.exports = {
   //Posting/Creating a new user
   createUser(req, res) {
     User.create(req.body)
-      .then((dbUserData) => res.json(dbUserData))
+      .then((user) => res.json(user))
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
@@ -52,14 +52,14 @@ module.exports = {
         !user
           ? res.status(404).json({ message: "No user with this id!" })
           : //   Deleting all the all user's associated thoughts
-            Thought.deleteMany({ username: dbUserData.username })
+            Thought.deleteMany({ _id: { $in: user.thought } })
       )
       .then((thoughts) =>
         !thoughts
           ? res.status(404).json({
               message: "User created no thought with this id!",
             })
-          : res.json({ message: "User successfully deleted!" })
+          : res.json({ message: "User and thought successfully deleted!" })
       )
       .catch((err) => res.status(500).json(err));
   },
