@@ -13,16 +13,10 @@ const userSchema = new Schema(
       {
         // Array of _id values referencing the Thought model
         type: Schema.Types.ObjectId,
-        ref: "thought",
+        ref: "Thought",
       },
     ],
-    friends: [
-      {
-        // Array of _id values referencing the Thought model
-        type: Schema.Types.ObjectId,
-        ref: this,
-      },
-    ],
+    friends: [this],
   },
   {
     // Mongoose supports two Schema options to transform Objects after querying MongoDb: toJSON and toObject.
@@ -36,9 +30,9 @@ const userSchema = new Schema(
 );
 
 // creating a virtual property 'friendCount' that retrieves the length of the user's friends array field on query.
-// userSchema.virtual("friendCount").get(() => {
-//   return this.friends.length;
-// });
+userSchema.virtual("friendCount").get(function () {
+  return this.friends.length;
+});
 
 // Initialize our Post model/ creating an instance
 const User = model("User", userSchema);

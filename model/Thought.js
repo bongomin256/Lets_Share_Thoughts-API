@@ -18,7 +18,7 @@ const thoughtSchema = new Schema(
 );
 
 // creating a virtual property 'reactionCount' that retrieves the length of the user's friends array field on query.
-thoughtSchema.virtual("reactionCount").get(() => {
+thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });
 
